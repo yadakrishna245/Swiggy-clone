@@ -1,31 +1,30 @@
 version: 0.2
 
-  env:
-    parameter-store:
-      DOCKER_REGISTRY_USERNAME: /cicd/docker-credentials/username
-      DOCKER_REGISTRY_PASSWORD: /cicd/docker-credentials/password
-      DOCKER_REGISTRY_URL: /cicd/docker-registry/url
-      SONAR_TOKEN: /cicd/sonar/sonar-token
+env:
+  parameter-store:
+    DOCKER_REGISTRY_USERNAME: /cicd/docker-credentials/username
+    DOCKER_REGISTRY_PASSWORD: /cicd/docker-credentials/password
+    DOCKER_REGISTRY_URL: /cicd/docker-registry/url
+    SONAR_TOKEN: /cicd/sonar/sonar-token
 
-  phases:
-    install:
-      runtime-versions:
-        python: 3.11
-        java: corretto17
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+      java: corretto17
 
-    pre_build:
-      commands:
-        - echo "Installing dependencies..."
+  pre_build:
+    commands:
+      - echo "Installing dependencies..."
 
-    build:
-      commands:
-        - echo "Building Docker image..."
+  build:
+    commands:
+      - echo "Building Docker image..."
 
-    post_build:
-      commands:
-        - aws ses send-email --from "yadakrishna245@gmail.com" --to "yadakrishna245@gmail.com" --subject "CodeBuild Status $CODEBUILD_BUILD_ID" --text "Build status $CODEBUILD_BUILD_STATUS" --region
-   "ap-south-1"
+  post_build:
+    commands:
+      - aws ses send-email --from "yadakrishna245@gmail.com" --to "yadakrishna245@gmail.com" --subject "CodeBuild Status" --text "Build status" --region "ap-south-1"
 
-  artifacts:
-    files:
-      - appspec.yaml
+artifacts:
+  files:
+    - appspec.yaml
