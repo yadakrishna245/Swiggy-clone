@@ -1,4 +1,4 @@
- version: 0.2
+version: 0.2
 
   env:
     parameter-store:
@@ -16,11 +16,9 @@
     pre_build:
       commands:
         - echo "Installing dependencies..."
-        - echo "Performing Trivy file scan before building the image..."
 
     build:
       commands:
-        - echo "Running tests..."
         - echo "Building Docker image..."
 
     post_build:
